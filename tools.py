@@ -58,16 +58,19 @@ class ADE20KDataset(Dataset):
         return len(self.imgs)
 
     def get_img_path(self, idx):
-        return self.imgs[idx]
+        return str(self.imgs[idx])
     
     def get_label_path(self, idx):
-        return self.labels[idx]
+        return str(self.labels[idx])
 
     def get_img_as_PIL(self, idx):
         return Image.open(self.imgs[idx]).convert("RGB")
     
     def get_label_as_PIL(self, idx):
         return Image.open(self.labels[idx])
+
+    def get_img_name(self, idx):
+        return str(Path(self.get_img_path(idx)).stem)
 
 
 
