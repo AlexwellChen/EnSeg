@@ -1,7 +1,3 @@
-from torch.utils.data import Dataset
-from itertools import chain
-from pathlib import Path
-from PIL import Image
 import numpy as np
 import torch
 import mmcv
@@ -26,52 +22,6 @@ def majorVote(seg_mat1, seg_mat2, seg_mat3):
             res[i][j] = res_cnt[0][0]
     
     return res
-
-'''
-加载ADE20K数据集
-'''
-class ADE20KDataset(Dataset):
-    def __init__(self, root, label_root, transforms=None):
-        self.root = Path(root)
-        self.label_root = Path(label_root)
-        self.transforms = transforms
-        self.imgs = list(sorted(chain(self.root.glob('*.jpg'), self.root.glob('*.png'))))
-        self.labels = list(sorted(chain(self.label_root.glob('*.jpg'), self.label_root.glob('*.png'))))
-    
-    def __getitem__(self, idx):
-        '''
-        ADE20KDataset: 返回为tuple, 第一个为image, 第二个为label
-
-        return (img (Tensor.float), label (Tensor.int32))
-        '''
-        img_path = self.imgs[idx]
-        label_path = self.labels[idx]
-        img = Image.open(img_path).convert("RGB")
-        label = Image.open(label_path)
-        if self.transforms is not None:
-            img = self.transforms(img)
-            label = np.array(label, dtype = np.uint8)
-            label = torch.Tensor(label).int()
-        return img, label
-    
-    def __len__(self):
-        return len(self.imgs)
-
-    def get_img_path(self, idx):
-        return str(self.imgs[idx])
-    
-    def get_label_path(self, idx):
-        return str(self.labels[idx])
-
-    def get_img_as_PIL(self, idx):
-        return Image.open(self.imgs[idx]).convert("RGB")
-    
-    def get_label_as_PIL(self, idx):
-        return Image.open(self.labels[idx])
-
-    def get_img_name(self, idx):
-        return str(Path(self.get_img_path(idx)).stem)
-
 
 
 class LoadImage:

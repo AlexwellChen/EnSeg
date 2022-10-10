@@ -41,7 +41,7 @@ ADE20K_Dataset = ADE20KDataset(train_path, train_label_path, transform)
                 推理并保存Tensor
 -------------------------------------------
 '''
-inference_num = 10
+inference_num = 10 # 推理数量
 img_path = [ADE20K_Dataset.get_img_path(i) for i in range(inference_num)]
 img_name = [ADE20K_Dataset.get_img_name(i) for i in range(inference_num)]
 netdisk_path = "/root/Desktop/我的网盘/inference_tensor/"
