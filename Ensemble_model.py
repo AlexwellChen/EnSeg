@@ -32,7 +32,8 @@ class FusionModel(nn.Module):
         res = res_1 + res_2 + res_3
         # TODO: Softmax dim BUG HERE
         # res = self.Softmax(res, dim=0) 
-        return res+1
+        return res + 1 # 由于数据集的结果包含background， 预测结果不含background， 所以预测结果+1
+
 
 '''
 -------------------- Loss Function --------------------
