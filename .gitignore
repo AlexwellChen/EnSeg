@@ -1,6 +1,6 @@
 
 .DS_Store
-.idea/
-.ipynb_checkpoints/
+# .idea/
+# .ipynb_checkpoints/
 inference_tensor/
 __pycache__/
