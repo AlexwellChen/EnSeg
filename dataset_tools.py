@@ -2,7 +2,8 @@ from itertools import chain
 from pathlib import Path
 from PIL import Image
 from torch.utils.data import Dataset
-
+import torch
+import numpy as np
 
 '''
 加载ADE20K数据集
@@ -78,7 +79,7 @@ class TensorDataset(Dataset):
         label_path = self.labels[idx]
         annotation = Image.open(label_path)
         annotation = np.array(annotation, dtype = np.uint8)
-        annotation_tensor = torch.Tensor(annotation).int()
+        annotation_tensor = torch.Tensor(annotation).long()
         return {'deeplabv3p':deeplabv3p_tensor, 'fcn':fcn_tensor, 'pspnet':pspnet_tensor}, annotation_tensor
     
     def __len__(self):
