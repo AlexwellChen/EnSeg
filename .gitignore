@@ -1,19 +1,5 @@
 
 .DS_Store
-.idea/EnSeg.iml
-.idea/inspectionProfiles/profiles_settings.xml
-.idea/inspectionProfiles/Project_Default.xml
-.idea/misc.xml
-.idea/modules.xml
-.idea/vcs.xml
-.idea/EnSeg.iml
-.idea/inspectionProfiles/profiles_settings.xml
-.idea/inspectionProfiles/Project_Default.xml
-.idea/misc.xml
-.idea/modules.xml
-.idea/vcs.xml
-.ipynb_checkpoints/DeepLab_test-checkpoint.ipynb
-test.JPG
-.ipynb_checkpoints/Hugging_Face_test-checkpoint.ipynb
-s13369-022-06608-9.pdf
-checkpoint/pspnet/pspnet_r50-d8_512x512_80k_ade20k_20200615_014128-15a8b914.pth
+.idea/
+.ipynb_checkpoints/
+inference_tensor/

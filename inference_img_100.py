@@ -47,9 +47,12 @@ img_name = [ADE20K_Dataset.get_img_name(i) for i in range(inference_num)]
 netdisk_path = "/root/Desktop/我的网盘/inference_tensor/"
 for i in tqdm(range(inference_num)):
     pspnet_model_res = inference_img(pspnet_model, img_path[i])[0]
-    # deeplabv3plus_model_res = inference_img(deeplabv3plus_model, img_path[i])[0]
-    # fcn_model_res = inference_img(fcn_model, img_path[i])[0]
     torch.save(pspnet_model_res, netdisk_path + "pspnet_model/" + img_name[i] + ".pt")
-    # torch.save(deeplabv3plus_model_res, netdisk_path + "deeplabv3p_model/" + img_name[i] + ".pt")
-    # torch.save(fcn_model_res, netdisk_path + "fcn_model/" + img_name[i] + ".pt")
-
+    
+for i in tqdm(range(inference_num)):
+    deeplabv3plus_model_res = inference_img(deeplabv3plus_model, img_path[i])[0]
+    torch.save(deeplabv3plus_model_res, netdisk_path + "deeplabv3p_model/" + img_name[i] + ".pt")
+    
+for i in tqdm(range(inference_num)):
+    fcn_model_res = inference_img(fcn_model, img_path[i])[0]
+    torch.save(fcn_model_res, netdisk_path + "fcn_model/" + img_name[i] + ".pt")
