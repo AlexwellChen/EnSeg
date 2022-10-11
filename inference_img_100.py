@@ -113,13 +113,13 @@ if deeplabv3p_inference_flag:
     for i in tqdm(range(train_start, train_end)):
         idx = i - train_start
         deeplabv3plus_model_res = inference_img(deeplabv3plus_model, train_img_path[idx])[0]
-        torch.save(deeplabv3plus_model_res, netdisk_train_path + "deeplabv3plus_model/" + train_img_name[i] + ".pt")
+        torch.save(deeplabv3plus_model_res, netdisk_train_path + "deeplabv3plus_model/" + train_img_name[idx] + ".pt")
 
     print("Val Inference...")
     for i in tqdm(range(val_start, val_end)):
         idx = i - val_start
         deeplabv3plus_model_res = inference_img(deeplabv3plus_model, val_img_path[idx])[0]
-        torch.save(deeplabv3plus_model_res, netdisk_val_path + "deeplabv3plus_model/" + val_img_name[i] + ".pt")
+        torch.save(deeplabv3plus_model_res, netdisk_val_path + "deeplabv3plus_model/" + val_img_name[idx] + ".pt")
 
     print("Test Inference...")
     for i in tqdm(range(test_start, test_end)):
