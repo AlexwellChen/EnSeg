@@ -63,7 +63,7 @@ def train_epoch(model, optimizer, loss_fn, train_loader, val_loader, device, pri
                   f"\tTrain loss: {sum(train_loss_batches[-print_every:])/print_every:.3f}, "
                   f"\tTrain IoU.: {sum(train_IoU_batches[-print_every:])/print_every:.3f}, "
                   f"\tVal. loss: {val_loss:.3f}, "
-                  f"\tVal. acc.: {val_acc:.3f}")
+                  f"\tVal. IoU.: {val_acc:.3f}")
 
     return model, train_loss_batches, train_IoU_batches
 
@@ -71,8 +71,9 @@ def validate(model, loss_fn, val_loader, device):
     val_loss_cum = 0
     val_mIoU_cum = 0
     model.eval()
+    print("Validating...")
     with torch.no_grad():
-        for batch_index, (x, y) in enumerate(val_loader, 1):
+        for batch_index, (x, y) in tqdm(enumerate(val_loader, 1)):
             inputs, labels = x, y
             labels -= 1
             labels = labels.to(device)
