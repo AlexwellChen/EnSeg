@@ -112,3 +112,8 @@ trained_model, train_losses_vgg, train_accs_vgg, val_losses_vgg, val_accs_vgg= t
                                                                      loss_fn=criterion, train_loader=train_dataloader, 
                                                                      val_loader = val_dataloader, 
                                                                      num_epochs=epochs_num, print_every=5)
+                                                
+# 保存模型
+model_save_path = "/root/Desktop/我的网盘/"
+torch.save(trained_model, model_save_path + "fusion_model.pth")
+
