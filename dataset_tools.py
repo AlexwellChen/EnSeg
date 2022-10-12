@@ -4,6 +4,7 @@ from PIL import Image
 from torch.utils.data import Dataset
 import torch
 import numpy as np
+from cv2 import imread, IMREAD_GRAYSCALE
 
 '''
 加载ADE20K数据集
@@ -40,6 +41,12 @@ class ADE20KDataset(Dataset):
     
     def get_label_path(self, idx):
         return str(self.labels[idx])
+
+    def get_img_as_ndarray(self, idx):
+        return imread(self.get_img_path(idx))
+    
+    def get_label_as_ndarray(self, idx):
+        return imread(self.get_label_path(idx), IMREAD_GRAYSCALE)
 
     def get_img_as_PIL(self, idx):
         return Image.open(self.imgs[idx]).convert("RGB")
