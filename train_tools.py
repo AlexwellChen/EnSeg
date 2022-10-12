@@ -1,5 +1,7 @@
 import torch
 from mmseg.core.evaluation import metrics
+from tqdm import tqdm
+import numpy as np
 
 def training_loop(model, optimizer, loss_fn, train_loader, val_loader, num_epochs, print_every):
     print("Starting training")
@@ -34,17 +36,21 @@ def train_epoch(model, optimizer, loss_fn, train_loader, val_loader, device, pri
     model.train()
     train_loss_batches, train_IoU_batches = [], []
     num_batches = len(train_loader)
-    for batch_index, (x, y) in enumerate(train_loader, 1):
-        inputs, labels = x.to(device), y.to(device)
+    for batch_index, (x, y) in tqdm(enumerate(train_loader, 1)):
+        inputs, labels = x, y
         labels -= 1
+        labels = labels.to(device)
         optimizer.zero_grad()
-        z = model.forward(inputs)
+        deeplabv3p_logits_res = inputs['deeplabv3p'].to(device)
+        pspnet_logits_res = inputs['pspnet'].to(device)
+        fcn_logits_res = inputs['fcn'].to(device)        
+        z = model.forward(deeplabv3p_logits_res, pspnet_logits_res, fcn_logits_res)
         loss = loss_fn(z, labels)
         loss.backward()
         optimizer.step()
         train_loss_batches.append(loss.item())
-
-        mIoU = metrics.mean_iou(labels, z, 150, 0)
+        pred = z.argmax(1)
+        mIoU = np.nanmean(metrics.mean_iou(labels.cpu().numpy(), pred.cpu().numpy(), 150, -1)['IoU'])
         train_IoU_batches.append(mIoU)
 
         # If you want to print your progress more often than every epoch you can
@@ -67,12 +73,17 @@ def validate(model, loss_fn, val_loader, device):
     model.eval()
     with torch.no_grad():
         for batch_index, (x, y) in enumerate(val_loader, 1):
-            inputs, labels = x.to(device), y.to(device)
+            inputs, labels = x, y
             labels -= 1
-            z = model.forward(inputs)
+            labels = labels.to(device)
+            deeplabv3p_logits_res = inputs['deeplabv3p'].to(device)
+            pspnet_logits_res = inputs['pspnet'].to(device)
+            fcn_logits_res = inputs['fcn'].to(device)        
+            z = model.forward(deeplabv3p_logits_res, pspnet_logits_res, fcn_logits_res)
             batch_loss = loss_fn(z, labels)
             val_loss_cum += batch_loss.item()
-            mIoU = metrics.mean_iou(labels, z, 150, 0)
+            pred = z.argmax(1)
+            mIoU = np.nanmean(metrics.mean_iou(labels.cpu().numpy(), pred.cpu().numpy(), 150, -1)['IoU'])
             val_mIoU_cum += mIoU
     return val_loss_cum/len(val_loader), val_mIoU_cum/len(val_loader)
 
