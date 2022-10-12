@@ -91,12 +91,11 @@ Train_tensor = TensorDataset(root=netdisk_train_path, label_root=netdisk_label_t
 Val_tensor = TensorDataset(root=netdisk_val_path, label_root=netdisk_label_val_path, device=device)
 
 # 由于每张图像Tensor的H和W不一致, 因此batch_size必须为1
-train_dataloader = DataLoader(Train_tensor, batch_size=1, shuffle=False)
-val_dataloader = DataLoader(Val_tensor, batch_size=1, shuffle=False)
+train_dataloader = DataLoader(Train_tensor, batch_size=1, shuffle=True)
+val_dataloader = DataLoader(Val_tensor, batch_size=1, shuffle=True)
 
 criterion = nn.CrossEntropyLoss(ignore_index=-1)
 model = FusionModel(150)
-# 多卡训练
 
 epochs_num = 3
 opt = torch.optim.Adam(model.parameters(),
@@ -104,7 +103,7 @@ opt = torch.optim.Adam(model.parameters(),
                 betas=(0.9, 0.999),
                 eps=1e-08)
 
-trained_model, train_losses, train_accs, val_losses, val_accs= training_loop(model, optimizer=opt, 
+trained_model, train_losses, train_IoU, val_losses, val_IoU= training_loop(model, optimizer=opt, 
                                                                      loss_fn=criterion, train_loader=train_dataloader, 
                                                                      val_loader = val_dataloader, 
                                                                      num_epochs=epochs_num, print_every=5)
@@ -112,4 +111,10 @@ trained_model, train_losses, train_accs, val_losses, val_accs= training_loop(mod
 # 保存模型
 model_save_path = "/root/Desktop/我的网盘/"
 torch.save(trained_model, model_save_path + "fusion_model.pth")
+
+# 保存训练过程中的loss和IoU
+train_data_path = "/root/Desktop/我的网盘/train_data/"
+data_dic = {'train_losses': train_losses, 'train_IoU': train_IoU, 'val_losses': val_losses, 'val_IoU': val_IoU}
+np.save(model_save_path + 'data_dic.npy', data_dic)
+
 
