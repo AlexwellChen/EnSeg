@@ -66,7 +66,7 @@ class TensorDataset(Dataset):
         self.device = device
         self.root = Path(root)
         self.label_root = Path(label_root)
-        deeplabv3p_tensor_path = Path(root + 'deeplabv3p_model')
+        deeplabv3p_tensor_path = Path(root + 'deeplabv3plus_model')
         fcn_tensor_path = Path(root + 'fcn_model')
         pspnet_tensor_path = Path(root + 'pspnet_model')
         self.deeplabv3p_tensor = list(sorted(chain(deeplabv3p_tensor_path.glob('*.pt'))))
@@ -90,4 +90,4 @@ class TensorDataset(Dataset):
         return {'deeplabv3p':deeplabv3p_tensor, 'fcn':fcn_tensor, 'pspnet':pspnet_tensor}, annotation_tensor
     
     def __len__(self):
-        return len(self.tensor_list)
+        return len(self.labels)

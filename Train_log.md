@@ -1,0 +1,99 @@
+Epoch = 5
+
+Starting training
+cuda:0
+9it [00:45,  5.08s/it]Validating...
+10it [00:54,  5.41s/it]
+10it [00Batch 10/50: t] Train loss: 3.652,      Train IoU.: 0.410,      Val. loss: 3.531,       Val. IoU.: 0.480
+19it [02:29,  5.74s/it]Validating...
+10it [00:53,  5.31s/it]
+10it [00Batch 20/50: t] Train loss: 3.399,      Train IoU.: 0.551,      Val. loss: 3.517,       Val. IoU.: 0.480
+29it [04:07,  5.86s/it]Validating...
+10it [00:52,  5.28s/it]
+10it [00Batch 30/50: t] Train loss: 3.435,      Train IoU.: 0.482,      Val. loss: 3.502,       Val. IoU.: 0.482
+39it [05:46,  5.19s/it]Validating...
+10it [00:52,  5.28s/it]
+10it [00Batch 40/50: t] Train loss: 3.565,      Train IoU.: 0.560,      Val. loss: 3.487,       Val. IoU.: 0.482
+49it [07:25,  5.65s/it]Validating...
+10it [00:53,  5.34s/it]
+10it [00Batch 50/50: t] Train loss: 3.490,      Train IoU.: 0.537,      Val. loss: 3.472,       Val. IoU.: 0.482
+50it [08:34, 10.28s/it]
+Validating...
+10it [00:51,  5.20s/it]
+Epoch 1/5: Train loss: 3.508, Train acc.: 0.508, Val. loss: 3.472, Val. acc.: 0.482
+9it [00:46,  5.24s/it]Validating...
+10it [00:54,  5.41s/it]
+10it [00Batch 10/50: t] Train loss: 3.590,      Train IoU.: 0.413,      Val. loss: 3.460,       Val. IoU.: 0.482
+19it [02:30,  5.63s/it]Validating...
+10it [00:52,  5.28s/it]
+10it [00Batch 20/50: t] Train loss: 3.320,      Train IoU.: 0.551,      Val. loss: 3.446,       Val. IoU.: 0.481
+29it [04:09,  6.07s/it]Validating...
+10it [00:53,  5.37s/it]
+10it [00Batch 30/50: t] Train loss: 3.355,      Train IoU.: 0.483,      Val. loss: 3.431,       Val. IoU.: 0.481
+39it [05:51,  5.27s/it]Validating...
+10it [00:53,  5.33s/it]
+10it [00Batch 40/50: t] Train loss: 3.491,      Train IoU.: 0.559,      Val. loss: 3.416,       Val. IoU.: 0.481
+49it [07:30,  5.73s/it]Validating...
+10it [00:52,  5.30s/it]
+10it [00Batch 50/50: t] Train loss: 3.415,      Train IoU.: 0.547,      Val. loss: 3.402,       Val. IoU.: 0.482
+50it [08:39, 10.39s/it]
+Validating...
+10it [00:52,  5.22s/it]
+Epoch 2/5: Train loss: 3.434, Train acc.: 0.511, Val. loss: 3.402, Val. acc.: 0.482
+9it [00:44,  5.10s/it]Validating...
+10it [00:52,  5.29s/it]
+10it [00Batch 10/50: t] Train loss: 3.527,      Train IoU.: 0.418,      Val. loss: 3.390,       Val. IoU.: 0.482
+19it [02:28,  5.79s/it]Validating...
+10it [00:52,  5.25s/it]
+10it [00Batch 20/50: t] Train loss: 3.242,      Train IoU.: 0.551,      Val. loss: 3.376,       Val. IoU.: 0.482
+29it [04:04,  5.77s/it]Validating...
+10it [00:52,  5.24s/it]
+10it [00Batch 30/50: t] Train loss: 3.274,      Train IoU.: 0.487,      Val. loss: 3.361,       Val. IoU.: 0.482
+39it [05:44,  5.12s/it]Validating...
+10it [00:52,  5.30s/it]
+10it [00Batch 40/50: t] Train loss: 3.418,      Train IoU.: 0.559,      Val. loss: 3.347,       Val. IoU.: 0.483
+49it [07:23,  5.54s/it]Validating...
+10it [00:53,  5.31s/it]
+10it [00Batch 50/50: t] Train loss: 3.341,      Train IoU.: 0.550,      Val. loss: 3.332,       Val. IoU.: 0.485
+50it [08:32, 10.24s/it]
+Validating...
+10it [00:51,  5.16s/it]
+Epoch 3/5: Train loss: 3.360, Train acc.: 0.513, Val. loss: 3.332, Val. acc.: 0.485
+9it [00:45,  5.10s/it]Validating...
+10it [00:51,  5.17s/it]
+10it [00Batch 10/50: t] Train loss: 3.463,      Train IoU.: 0.423,      Val. loss: 3.320,       Val. IoU.: 0.485
+19it [02:26,  5.68s/it]Validating...
+10it [00:52,  5.28s/it]
+10it [00Batch 20/50: t] Train loss: 3.164,      Train IoU.: 0.542,      Val. loss: 3.307,       Val. IoU.: 0.484
+29it [04:04,  5.83s/it]Validating...
+10it [00:52,  5.23s/it]
+10it [00Batch 30/50: t] Train loss: 3.194,      Train IoU.: 0.489,      Val. loss: 3.292,       Val. IoU.: 0.477
+39it [05:44,  5.23s/it]Validating...
+10it [00:51,  5.14s/it]
+10it [00Batch 40/50: t] Train loss: 3.345,      Train IoU.: 0.563,      Val. loss: 3.278,       Val. IoU.: 0.477
+49it [07:22,  5.67s/it]Validating...
+10it [00:52,  5.22s/it]
+10it [00Batch 50/50: t] Train loss: 3.267,      Train IoU.: 0.550,      Val. loss: 3.263,       Val. IoU.: 0.476
+50it [08:30, 10.22s/it]
+Validating...
+10it [00:52,  5.27s/it]
+Epoch 4/5: Train loss: 3.287, Train acc.: 0.513, Val. loss: 3.263, Val. acc.: 0.476
+9it [00:45,  5.12s/it]Validating...
+10it [00:51,  5.17s/it]
+10it [00Batch 10/50: t] Train loss: 3.400,      Train IoU.: 0.423,      Val. loss: 3.251,       Val. IoU.: 0.476
+19it [02:27,  5.92s/it]Validating...
+10it [00:53,  5.38s/it]
+10it [00Batch 20/50: t] Train loss: 3.087,      Train IoU.: 0.545,      Val. loss: 3.238,       Val. IoU.: 0.476
+29it [04:05,  5.87s/it]Validating...
+10it [00:52,  5.26s/it]
+10it [00Batch 30/50: t] Train loss: 3.115,      Train IoU.: 0.490,      Val. loss: 3.223,       Val. IoU.: 0.476
+39it [05:45,  5.16s/it]Validating...
+10it [00:52,  5.22s/it]
+10it [00Batch 40/50: t] Train loss: 3.273,      Train IoU.: 0.563,      Val. loss: 3.209,       Val. IoU.: 0.478
+49it [07:23,  5.48s/it]Validating...
+10it [00:51,  5.20s/it]
+10it [00Batch 50/50: t] Train loss: 3.194,      Train IoU.: 0.550,      Val. loss: 3.195,       Val. IoU.: 0.477
+50it [08:30, 10.21s/it]
+Validating...
+10it [00:52,  5.26s/it]
+Epoch 5/5: Train loss: 3.214, Train acc.: 0.514, Val. loss: 3.195, Val. acc.: 0.477
