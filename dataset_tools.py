@@ -83,4 +83,4 @@ class TensorDataset(Dataset):
         return {'deeplabv3p':deeplabv3p_tensor, 'fcn':fcn_tensor, 'pspnet':pspnet_tensor}, annotation_tensor
     
     def __len__(self):
-        return len(self.tensor_list)
+        return len(self.labels)
