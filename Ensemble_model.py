@@ -90,23 +90,21 @@ device = "cuda:0"
 Train_tensor = TensorDataset(root=netdisk_train_path, label_root=netdisk_label_train_path, device=device)
 Val_tensor = TensorDataset(root=netdisk_val_path, label_root=netdisk_label_val_path, device=device)
 
-# batch_size 必须为1
+# 由于每张图像Tensor的H和W不一致, 因此batch_size必须为1
 train_dataloader = DataLoader(Train_tensor, batch_size=1, shuffle=False)
 val_dataloader = DataLoader(Val_tensor, batch_size=1, shuffle=False)
-
-
 
 criterion = nn.CrossEntropyLoss(ignore_index=-1)
 model = FusionModel(150)
 # 多卡训练
 
-epochs_num = 5
+epochs_num = 3
 opt = torch.optim.Adam(model.parameters(),
                 lr=0.001,
                 betas=(0.9, 0.999),
                 eps=1e-08)
 
-trained_model, train_losses_vgg, train_accs_vgg, val_losses_vgg, val_accs_vgg= training_loop(model, optimizer=opt, 
+trained_model, train_losses, train_accs, val_losses, val_accs= training_loop(model, optimizer=opt, 
                                                                      loss_fn=criterion, train_loader=train_dataloader, 
                                                                      val_loader = val_dataloader, 
                                                                      num_epochs=epochs_num, print_every=5)
