@@ -17,23 +17,16 @@ class FusionModel(nn.Module):
     def __init__(self, class_num):
         super().__init__()
         # class_num: 150
-        vec_1 = torch.from_numpy(np.random.rand(class_num)).reshape(class_num, 1, 1)
-        vec_2 = torch.from_numpy(np.random.rand(class_num)).reshape(class_num, 1, 1)
-        vec_3 = torch.from_numpy(np.random.rand(class_num)).reshape(class_num, 1, 1)
-        self.w1 = torch.nn.Parameter(vec_1) 
-        self.w2 = torch.nn.Parameter(vec_2)
-        self.w3 = torch.nn.Parameter(vec_3)
+        self.w1 = torch.nn.Parameter(torch.from_numpy(np.random.rand(class_num)).reshape(class_num, 1, 1)) 
+        self.w2 = torch.nn.Parameter(torch.from_numpy(np.random.rand(class_num)).reshape(class_num, 1, 1))
+        self.w3 = torch.nn.Parameter(torch.from_numpy(np.random.rand(class_num)).reshape(class_num, 1, 1))
         self.Softmax = nn.Softmax()
         
     def forward(self, input_seg1, input_seg2, input_seg3):
         # input_seg size: (150, H, W)
-        res_1 = input_seg1 * self.w1
-        res_2 = input_seg2 * self.w2
-        res_3 = input_seg3 * self.w3
-        res = res_1 + res_2 + res_3
         # TODO: Softmax dim BUG HERE
         # res = self.Softmax(res, dim=0) 
-        return res
+        return input_seg1 * self.w1 + input_seg2 * self.w2 + input_seg3 * self.w3
 
 '''
 --------------------- 以下是测试代码 ---------------------
@@ -97,8 +90,8 @@ device = "cuda:0"
 Train_tensor = TensorDataset(root=netdisk_train_path, label_root=netdisk_label_train_path, device=device)
 Val_tensor = TensorDataset(root=netdisk_val_path, label_root=netdisk_label_val_path, device=device)
 
-train_dataloader = DataLoader(Train_tensor, batch_size=1, shuffle=True)
-val_dataloader = DataLoader(Val_tensor, batch_size=1, shuffle=True)
+train_dataloader = DataLoader(Train_tensor, batch_size=1, shuffle=False)
+val_dataloader = DataLoader(Val_tensor, batch_size=1, shuffle=False)
 
 criterion = nn.CrossEntropyLoss(ignore_index=-1)
 model = FusionModel(150)
