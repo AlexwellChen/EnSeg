@@ -7,13 +7,8 @@ def training_loop(model, optimizer, loss_fn, train_loader, val_loader, num_epoch
     print("Starting training")
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     print(device)
-    # 多卡
-    device_ids = [0, 1]
-    model = torch.nn.DataParallel(model, device_ids=device_ids)
-    model = model.cuda(device=device_ids[0])
-
     #单卡
-    # model = model.to(device)
+    model = model.to(device)
    
     train_losses, train_mIoUs, val_losses, val_mIoUs = [], [], [], []
 
@@ -42,15 +37,14 @@ def train_epoch(model, optimizer, loss_fn, train_loader, val_loader, device, pri
     model.train()
     train_loss_batches, train_IoU_batches = [], []
     num_batches = len(train_loader)
-    device_ids = [0, 1]
     for batch_index, (x, y) in tqdm(enumerate(train_loader, 1)):
         inputs, labels = x, y
         labels -= 1
-        labels = labels.cuda(device=device_ids[0])
+        labels = labels.to(device)
         optimizer.zero_grad()
-        deeplabv3p_logits_res = inputs['deeplabv3p'].cuda(device=device_ids[0])
-        pspnet_logits_res = inputs['pspnet'].cuda(device=device_ids[0])
-        fcn_logits_res = inputs['fcn'].cuda(device=device_ids[0])
+        deeplabv3p_logits_res = inputs['deeplabv3p'].to(device)
+        pspnet_logits_res = inputs['pspnet'].to(device)
+        fcn_logits_res = inputs['fcn'].to(device)
         z = model.forward(deeplabv3p_logits_res, pspnet_logits_res, fcn_logits_res)
         loss = loss_fn(z, labels)
         loss.backward()
@@ -78,16 +72,15 @@ def validate(model, loss_fn, val_loader, device):
     val_loss_cum = 0
     val_mIoU_cum = 0
     model.eval()
-    device_ids = [0, 1]
     print("Validating...")
     with torch.no_grad():
         for batch_index, (x, y) in tqdm(enumerate(val_loader, 1)):
             inputs, labels = x, y
             labels -= 1
-            labels = labels.cuda(device=device_ids[0])
-            deeplabv3p_logits_res = inputs['deeplabv3p'].cuda(device=device_ids[0])
-            pspnet_logits_res = inputs['pspnet'].cuda(device=device_ids[0])
-            fcn_logits_res = inputs['fcn'].cuda(device=device_ids[0])
+            labels = labels.to(device)
+            deeplabv3p_logits_res = inputs['deeplabv3p'].to(device)
+            pspnet_logits_res = inputs['pspnet'].to(device)
+            fcn_logits_res = inputs['fcn'].to(device)
             z = model.forward(deeplabv3p_logits_res, pspnet_logits_res, fcn_logits_res)
             batch_loss = loss_fn(z, labels)
             val_loss_cum += batch_loss.item()

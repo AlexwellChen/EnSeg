@@ -73,7 +73,6 @@ class TensorDataset(Dataset):
         输入: idx
         返回: {'deeplabv3p': Tensor, 'fcn': Tensor, 'pspnet': Tensor}, annotation_tensor
         '''
-        print("Current img: " + str(idx))
         deeplabv3p_tensor = torch.load(self.deeplabv3p_tensor[idx], map_location=torch.device(self.device))
         fcn_tensor = torch.load(self.fcn_tensor[idx], map_location=torch.device(self.device))
         pspnet_tensor = torch.load(self.pspnet_tensor[idx], map_location=torch.device(self.device))
