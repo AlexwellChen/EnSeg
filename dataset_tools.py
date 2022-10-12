@@ -59,7 +59,7 @@ class TensorDataset(Dataset):
         self.device = device
         self.root = Path(root)
         self.label_root = Path(label_root)
-        deeplabv3p_tensor_path = Path(root + 'deeplabv3p_model')
+        deeplabv3p_tensor_path = Path(root + 'deeplabv3plus_model')
         fcn_tensor_path = Path(root + 'fcn_model')
         pspnet_tensor_path = Path(root + 'pspnet_model')
         self.deeplabv3p_tensor = list(sorted(chain(deeplabv3p_tensor_path.glob('*.pt'))))
@@ -73,6 +73,7 @@ class TensorDataset(Dataset):
         输入: idx
         返回: {'deeplabv3p': Tensor, 'fcn': Tensor, 'pspnet': Tensor}, annotation_tensor
         '''
+        print("Current img: " + str(idx))
         deeplabv3p_tensor = torch.load(self.deeplabv3p_tensor[idx], map_location=torch.device(self.device))
         fcn_tensor = torch.load(self.fcn_tensor[idx], map_location=torch.device(self.device))
         pspnet_tensor = torch.load(self.pspnet_tensor[idx], map_location=torch.device(self.device))
