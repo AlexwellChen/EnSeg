@@ -6,6 +6,8 @@ from dataset_tools import TensorDataset
 from train_tools import training_loop
 from torch.utils.data import DataLoader
 
+train_flag = False
+
 class FusionModel(nn.Module):
     '''
     输入: 三个模型的分割结果
@@ -74,47 +76,47 @@ Label范围: 1-150, 0是背景
 '''
 --------------------- 训练 ---------------------
 '''
+if train_flag:
+    netdisk_train_path = "/root/Desktop/我的网盘/inference_tensor_train/"
+    netdisk_val_path = "/root/Desktop/我的网盘/inference_tensor_val/"
+    netdisk_test_path = "/root/Desktop/我的网盘/inference_tensor_test/"
+    netdisk_label_train_path = "/root/Desktop/我的网盘/Label/train/"
+    netdisk_label_val_path = "/root/Desktop/我的网盘/Label/val/"
 
-netdisk_train_path = "/root/Desktop/我的网盘/inference_tensor_train/"
-netdisk_val_path = "/root/Desktop/我的网盘/inference_tensor_val/"
-netdisk_test_path = "/root/Desktop/我的网盘/inference_tensor_test/"
-netdisk_label_train_path = "/root/Desktop/我的网盘/Label/train/"
-netdisk_label_val_path = "/root/Desktop/我的网盘/Label/val/"
+    device = "cuda:0"
+    # # 模型定义
+    # model = FusionModel(150)
+    # model.to(device)
 
-device = "cuda:0"
-# # 模型定义
-# model = FusionModel(150)
-# model.to(device)
+    # 数据准备
+    Train_tensor = TensorDataset(root=netdisk_train_path, label_root=netdisk_label_train_path, device=device)
+    Val_tensor = TensorDataset(root=netdisk_val_path, label_root=netdisk_label_val_path, device=device)
 
-# 数据准备
-Train_tensor = TensorDataset(root=netdisk_train_path, label_root=netdisk_label_train_path, device=device)
-Val_tensor = TensorDataset(root=netdisk_val_path, label_root=netdisk_label_val_path, device=device)
+    # 由于每张图像Tensor的H和W不一致, 因此batch_size必须为1
+    train_dataloader = DataLoader(Train_tensor, batch_size=1, shuffle=True)
+    val_dataloader = DataLoader(Val_tensor, batch_size=1, shuffle=True)
 
-# 由于每张图像Tensor的H和W不一致, 因此batch_size必须为1
-train_dataloader = DataLoader(Train_tensor, batch_size=1, shuffle=True)
-val_dataloader = DataLoader(Val_tensor, batch_size=1, shuffle=True)
+    criterion = nn.CrossEntropyLoss(ignore_index=-1)
+    model = FusionModel(150)
 
-criterion = nn.CrossEntropyLoss(ignore_index=-1)
-model = FusionModel(150)
+    epochs_num = 3
+    opt = torch.optim.Adam(model.parameters(),
+                    lr=0.001,
+                    betas=(0.9, 0.999),
+                    eps=1e-08)
 
-epochs_num = 3
-opt = torch.optim.Adam(model.parameters(),
-                lr=0.001,
-                betas=(0.9, 0.999),
-                eps=1e-08)
+    trained_model, train_losses, train_IoU, val_losses, val_IoU= training_loop(model, optimizer=opt, 
+                                                                        loss_fn=criterion, train_loader=train_dataloader, 
+                                                                        val_loader = val_dataloader, 
+                                                                        num_epochs=epochs_num, print_every=5)
+                                                    
+    # 保存模型
+    model_save_path = "/root/Desktop/我的网盘/"
+    torch.save(trained_model, model_save_path + "fusion_model.pth")
 
-trained_model, train_losses, train_IoU, val_losses, val_IoU= training_loop(model, optimizer=opt, 
-                                                                     loss_fn=criterion, train_loader=train_dataloader, 
-                                                                     val_loader = val_dataloader, 
-                                                                     num_epochs=epochs_num, print_every=5)
-                                                
-# 保存模型
-model_save_path = "/root/Desktop/我的网盘/"
-torch.save(trained_model, model_save_path + "fusion_model.pth")
-
-# 保存训练过程中的loss和IoU
-train_data_path = "/root/Desktop/我的网盘/train_data/"
-data_dic = {'train_losses': train_losses, 'train_IoU': train_IoU, 'val_losses': val_losses, 'val_IoU': val_IoU}
-np.save(model_save_path + 'data_dic.npy', data_dic)
+    # 保存训练过程中的loss和IoU
+    train_data_path = "/root/Desktop/我的网盘/train_data/"
+    data_dic = {'train_losses': train_losses, 'train_IoU': train_IoU, 'val_losses': val_losses, 'val_IoU': val_IoU}
+    np.save(model_save_path + 'data_dic.npy', data_dic)
 
 
