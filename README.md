@@ -1,6 +1,7 @@
 # EnSeg
 
 *Repo for SSY340 project*
+![](img/Fusion%20model%20weight.png)
 
 ### 文件结构与用途
 

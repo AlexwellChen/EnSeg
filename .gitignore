@@ -8,4 +8,5 @@ __pycache__/
 data_dic.npy
 fusion_model.pth
 test_IoU.npy
-img/
+Train_log.md
+
