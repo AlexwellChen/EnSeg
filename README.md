@@ -1,7 +1,7 @@
 # EnSeg
 
 *Repo for SSY340 project*
-![](img/Tensor arch.png)
+![](img/Tensor%20arch.png)
 
 ### 文件结构与用途
 
