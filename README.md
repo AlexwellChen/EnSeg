@@ -1,7 +1,12 @@
 # EnSeg
 
 *Repo for SSY340 project*
-![](img/Tensor%20arch.png)
+
+### EnSeg Stucture
+
+<div align="center">
+<img src="img/Tensor%20arch.png" style="zoom:30%;" />
+</div>
 
 ### 文件结构与用途
 
@@ -21,5 +26,4 @@
 
 ### FusionMode
 通过对每一个(150, H, W)的Tensor中每一个类别赋予不同的权重，即在每一个类别中进行(H, W) * Weight。以Tensor的角度来看是(150, H, W)和(150, 1, 1)进行了广播乘法操作。我们对三个模型的结果加权求和，最终确定融合后每一个像素的类别。
-
 
