@@ -5,3 +5,6 @@
 .ipynb_checkpoints/
 inference_tensor/
 __pycache__/
+data_dic.npy
+fusion_model.pth
+test_IoU.npy
