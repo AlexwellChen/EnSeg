@@ -1,8 +1,9 @@
-from configparser import Interpolation
+import torchvision.transforms.functional as f
+from tools import inference_img
 from dataset_tools import ADE20KDataset
+from mmseg.apis import init_segmentor
 from torchvision.transforms import Compose
 import torchvision.transforms as transforms
-import torchvision.transforms.functional as f
 from tqdm import tqdm
 import torch
 
@@ -13,6 +14,29 @@ deeplabv3p_inference_flag = True
 Train_Flag = True
 Val_Flag = True
 Test_Flag = True
+
+
+'''
+-------------------------------------------
+                  加载模型
+-------------------------------------------
+'''
+if pspnet_inference_flag:
+    
+    pspnet_config_file = '../configs/pspnet/pspnet_r50-d8_512x512_80k_ade20k.py'
+    pspnet_checkpoint_file = '../checkpoints/pspnet_r50-d8_512x512_80k_ade20k_20200615_014128-15a8b914.pth'
+    pspnet_model = init_segmentor(pspnet_config_file, pspnet_checkpoint_file, device='cuda:0')
+    
+if fcn_inference_flag:
+    fcn_config_file = '../configs/fcn/fcn_r50-d8_512x512_80k_ade20k.py'
+    fcn_checkpoint_file = '../checkpoints/fcn_r50-d8_512x512_80k_ade20k_20200614_144016-f8ac5082.pth'
+    fcn_model = init_segmentor(fcn_config_file, fcn_checkpoint_file, device='cuda:1')
+
+if deeplabv3p_inference_flag:
+    deeplabv3plus_config_file = '../configs/deeplabv3plus/deeplabv3plus_r50-d8_512x512_80k_ade20k.py'
+    deeplabv3plus_checkpoint_file = '../checkpoints/deeplabv3plus_r50-d8_512x512_80k_ade20k_20200614_185028-bf1400d8.pth'
+    deeplabv3plus_model = init_segmentor(deeplabv3plus_config_file, deeplabv3plus_checkpoint_file, device='cuda:2')
+
 
 '''
 -------------------------------------------
