@@ -6,12 +6,12 @@ import torchvision.transforms as transforms
 from tqdm import tqdm
 import torch
 
-pspnet_inference_flag = False
-fcn_inference_flag = False
+pspnet_inference_flag = True
+fcn_inference_flag = True
 deeplabv3p_inference_flag = True
 
-Train_Flag = False
-Val_Flag = False
+Train_Flag = True
+Val_Flag = True
 Test_Flag = True
 
 '''
@@ -28,12 +28,12 @@ if pspnet_inference_flag:
 if fcn_inference_flag:
     fcn_config_file = '../configs/fcn/fcn_r50-d8_512x512_80k_ade20k.py'
     fcn_checkpoint_file = '../checkpoints/fcn_r50-d8_512x512_80k_ade20k_20200614_144016-f8ac5082.pth'
-    fcn_model = init_segmentor(fcn_config_file, fcn_checkpoint_file, device='cuda:0')
+    fcn_model = init_segmentor(fcn_config_file, fcn_checkpoint_file, device='cuda:1')
 
 if deeplabv3p_inference_flag:
     deeplabv3plus_config_file = '../configs/deeplabv3plus/deeplabv3plus_r50-d8_512x512_80k_ade20k.py'
     deeplabv3plus_checkpoint_file = '../checkpoints/deeplabv3plus_r50-d8_512x512_80k_ade20k_20200614_185028-bf1400d8.pth'
-    deeplabv3plus_model = init_segmentor(deeplabv3plus_config_file, deeplabv3plus_checkpoint_file, device='cuda:0')
+    deeplabv3plus_model = init_segmentor(deeplabv3plus_config_file, deeplabv3plus_checkpoint_file, device='cuda:2')
 
 '''
 -------------------------------------------
@@ -54,13 +54,13 @@ ADE20K_Dataset = ADE20KDataset(train_path, train_label_path, transform)
 -------------------------------------------
 '''
 # Dataset Generator Config
-Train_num = 50
+Train_num = 100
 Val_num = 10
 Test_num = 100
 
 # Train[0, 50)
 train_start = 0 
-train_end = 50
+train_end = Train_num
 
 # Val[50, 60)
 val_start = train_end
