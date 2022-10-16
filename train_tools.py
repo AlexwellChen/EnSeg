@@ -91,8 +91,10 @@ def validate(model, loss_fn, val_loader, device):
             pred = z.argmax(1)
             mIoU = np.nanmean(metrics.mean_iou(labels.cpu().numpy(), pred.cpu().numpy(), 150, -1)['IoU'])
             val_mIoU_cum += mIoU
+
             del inputs, deeplabv3p_logits_res, pspnet_logits_res, fcn_logits_res, z, labels
             torch.cuda.empty_cache()
+            
     return val_loss_cum/len(val_loader), val_mIoU_cum/len(val_loader)
 
 def plot_data(train_accs, val_accs, train_losses, val_losses, step_size):

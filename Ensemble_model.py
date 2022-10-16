@@ -6,7 +6,7 @@ from dataset_tools import TensorDataset
 from train_tools import training_loop
 from torch.utils.data import DataLoader
 
-train_flag = False
+train_flag = True
 
 class FusionModel(nn.Module):
     '''
@@ -22,7 +22,6 @@ class FusionModel(nn.Module):
         self.w1 = torch.nn.Parameter(torch.from_numpy(np.random.rand(class_num)).reshape(class_num, 1, 1)) 
         self.w2 = torch.nn.Parameter(torch.from_numpy(np.random.rand(class_num)).reshape(class_num, 1, 1))
         self.w3 = torch.nn.Parameter(torch.from_numpy(np.random.rand(class_num)).reshape(class_num, 1, 1))
-        self.Softmax = nn.Softmax()
         
     def forward(self, input_seg1, input_seg2, input_seg3):
         # input_seg size: (150, H, W)
@@ -108,15 +107,15 @@ if train_flag:
     trained_model, train_losses, train_IoU, val_losses, val_IoU= training_loop(model, optimizer=opt, 
                                                                         loss_fn=criterion, train_loader=train_dataloader, 
                                                                         val_loader = val_dataloader, 
-                                                                        num_epochs=epochs_num, print_every=5)
+                                                                        num_epochs=epochs_num, print_every=20)
                                                     
     # 保存模型
     model_save_path = "/root/Desktop/我的网盘/"
-    torch.save(trained_model, model_save_path + "fusion_model.pth")
+    torch.save(trained_model, model_save_path + "fusion_model_100.pth")
 
     # 保存训练过程中的loss和IoU
     train_data_path = "/root/Desktop/我的网盘/train_data/"
     data_dic = {'train_losses': train_losses, 'train_IoU': train_IoU, 'val_losses': val_losses, 'val_IoU': val_IoU}
-    np.save(model_save_path + 'data_dic.npy', data_dic)
+    np.save(model_save_path + 'data_dic_100.npy', data_dic)
 
 
