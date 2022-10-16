@@ -10,6 +10,10 @@ pspnet_inference_flag = False
 fcn_inference_flag = False
 deeplabv3p_inference_flag = True
 
+Train_Flag = False
+Val_Flag = False
+Test_Flag = True
+
 '''
 -------------------------------------------
                   加载模型
@@ -52,7 +56,7 @@ ADE20K_Dataset = ADE20KDataset(train_path, train_label_path, transform)
 # Dataset Generator Config
 Train_num = 50
 Val_num = 10
-Test_num = 10
+Test_num = 100
 
 # Train[0, 50)
 train_start = 0 
@@ -85,23 +89,26 @@ netdisk_test_path = "/root/Desktop/我的网盘/inference_tensor_test/"
 if pspnet_inference_flag:
     print("PSPnet Inference...")
 
-    print("Train Inference...")
-    for i in tqdm(range(train_start, train_end)):
-        idx = i - train_start
-        pspnet_model_res = inference_img(pspnet_model, train_img_path[idx])[0]
-        torch.save(pspnet_model_res, netdisk_train_path + "pspnet_model/" + train_img_name[idx] + ".pt")
+    if Train_Flag:
+        print("Train Inference...")
+        for i in tqdm(range(train_start, train_end)):
+            idx = i - train_start
+            pspnet_model_res = inference_img(pspnet_model, train_img_path[idx])[0]
+            torch.save(pspnet_model_res, netdisk_train_path + "pspnet_model/" + train_img_name[idx] + ".pt")
 
-    print("Val Inference...")
-    for i in tqdm(range(val_start, val_end)):
-        idx = i - val_start
-        pspnet_model_res = inference_img(pspnet_model, val_img_path[idx])[0]
-        torch.save(pspnet_model_res, netdisk_val_path + "pspnet_model/" + val_img_name[idx] + ".pt")
+    if Val_Flag:
+        print("Val Inference...")
+        for i in tqdm(range(val_start, val_end)):
+            idx = i - val_start
+            pspnet_model_res = inference_img(pspnet_model, val_img_path[idx])[0]
+            torch.save(pspnet_model_res, netdisk_val_path + "pspnet_model/" + val_img_name[idx] + ".pt")
 
-    print("Test Inference...")
-    for i in tqdm(range(test_start, test_end)):
-        idx = i - test_start
-        pspnet_model_res = inference_img(pspnet_model, test_img_path[idx])[0]
-        torch.save(pspnet_model_res, netdisk_test_path + "pspnet_model/" + test_img_name[idx] + ".pt")
+    if Test_Flag:
+        print("Test Inference...")
+        for i in tqdm(range(test_start, test_end)):
+            idx = i - test_start
+            pspnet_model_res = inference_img(pspnet_model, test_img_path[idx])[0]
+            torch.save(pspnet_model_res, netdisk_test_path + "pspnet_model/" + test_img_name[idx] + ".pt")
 
 '''
 -------------------Deeplabv3plus------------------------
@@ -109,23 +116,26 @@ if pspnet_inference_flag:
 if deeplabv3p_inference_flag:
     print("Deeplabv3plus Inference...")
 
-    print("Train Inference...")
-    for i in tqdm(range(train_start, train_end)):
-        idx = i - train_start
-        deeplabv3plus_model_res = inference_img(deeplabv3plus_model, train_img_path[idx])[0]
-        torch.save(deeplabv3plus_model_res, netdisk_train_path + "deeplabv3plus_model/" + train_img_name[idx] + ".pt")
+    if Train_Flag:
+        print("Train Inference...")
+        for i in tqdm(range(train_start, train_end)):
+            idx = i - train_start
+            deeplabv3plus_model_res = inference_img(deeplabv3plus_model, train_img_path[idx])[0]
+            torch.save(deeplabv3plus_model_res, netdisk_train_path + "deeplabv3plus_model/" + train_img_name[idx] + ".pt")
 
-    print("Val Inference...")
-    for i in tqdm(range(val_start, val_end)):
-        idx = i - val_start
-        deeplabv3plus_model_res = inference_img(deeplabv3plus_model, val_img_path[idx])[0]
-        torch.save(deeplabv3plus_model_res, netdisk_val_path + "deeplabv3plus_model/" + val_img_name[idx] + ".pt")
+    if Val_Flag:
+        print("Val Inference...")
+        for i in tqdm(range(val_start, val_end)):
+            idx = i - val_start
+            deeplabv3plus_model_res = inference_img(deeplabv3plus_model, val_img_path[idx])[0]
+            torch.save(deeplabv3plus_model_res, netdisk_val_path + "deeplabv3plus_model/" + val_img_name[idx] + ".pt")
 
-    print("Test Inference...")
-    for i in tqdm(range(test_start, test_end)):
-        idx = i - test_start
-        deeplabv3plus_model_res = inference_img(deeplabv3plus_model, test_img_path[idx])[0]
-        torch.save(deeplabv3plus_model_res, netdisk_test_path + "deeplabv3plus_model/" + test_img_name[idx] + ".pt")
+    if Test_Flag:
+        print("Test Inference...")
+        for i in tqdm(range(test_start, test_end)):
+            idx = i - test_start
+            deeplabv3plus_model_res = inference_img(deeplabv3plus_model, test_img_path[idx])[0]
+            torch.save(deeplabv3plus_model_res, netdisk_test_path + "deeplabv3plus_model/" + test_img_name[idx] + ".pt")
 
 '''
 -------------------FCN------------------------
@@ -133,20 +143,23 @@ if deeplabv3p_inference_flag:
 if fcn_inference_flag:
     print("FCN Inference...")
 
-    print("Train Inference...")
-    for i in tqdm(range(train_start, train_end)):
-        idx = i - train_start
-        fcn_model_res = inference_img(fcn_model, train_img_path[idx])[0]
-        torch.save(fcn_model_res, netdisk_train_path + "fcn_model/" + train_img_name[idx] + ".pt")
+    if Train_Flag:
+        print("Train Inference...")
+        for i in tqdm(range(train_start, train_end)):
+            idx = i - train_start
+            fcn_model_res = inference_img(fcn_model, train_img_path[idx])[0]
+            torch.save(fcn_model_res, netdisk_train_path + "fcn_model/" + train_img_name[idx] + ".pt")
 
-    print("Val Inference...")
-    for i in tqdm(range(val_start, val_end)):
-        idx = i - val_start
-        fcn_model_res = inference_img(fcn_model, val_img_path[idx])[0]
-        torch.save(fcn_model_res, netdisk_val_path + "fcn_model/" + val_img_name[idx] + ".pt")
+    if Val_Flag:
+        print("Val Inference...")
+        for i in tqdm(range(val_start, val_end)):
+            idx = i - val_start
+            fcn_model_res = inference_img(fcn_model, val_img_path[idx])[0]
+            torch.save(fcn_model_res, netdisk_val_path + "fcn_model/" + val_img_name[idx] + ".pt")
 
-    print("Test Inference...")
-    for i in tqdm(range(test_start, test_end)):
-        idx = i - test_start
-        fcn_model_res = inference_img(fcn_model, test_img_path[idx])[0]
-        torch.save(fcn_model_res, netdisk_test_path + "fcn_model/" + test_img_name[idx] + ".pt")
+    if Test_Flag:
+        print("Test Inference...")
+        for i in tqdm(range(test_start, test_end)):
+            idx = i - test_start
+            fcn_model_res = inference_img(fcn_model, test_img_path[idx])[0]
+            torch.save(fcn_model_res, netdisk_test_path + "fcn_model/" + test_img_name[idx] + ".pt")
