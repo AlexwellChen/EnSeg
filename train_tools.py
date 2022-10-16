@@ -39,8 +39,7 @@ def train_epoch(model, optimizer, loss_fn, train_loader, val_loader, device, pri
     num_batches = len(train_loader)
     for batch_index, (x, y) in tqdm(enumerate(train_loader, 1)):
         inputs, labels = x, y
-        labels -= 1
-        labels = labels.to(device)
+        labels = labels.to(device) - 1
         optimizer.zero_grad()
         deeplabv3p_logits_res = inputs['deeplabv3p'].to(device)
         pspnet_logits_res = inputs['pspnet'].to(device)
@@ -52,10 +51,10 @@ def train_epoch(model, optimizer, loss_fn, train_loader, val_loader, device, pri
         train_loss_batches.append(loss.item())
         pred = z.argmax(1)
         mIoU = np.nanmean(metrics.mean_iou(labels.cpu().numpy(), pred.cpu().numpy(), 150, -1)['IoU'])
-        train_IoU_batches.append(mIoU)
+        train_IoU_batches.append(mIoU.item())
 
         # delete caches
-        del inputs, deeplabv3p_logits_res, pspnet_logits_res, fcn_logits_res, z, labels, loss
+        del inputs, deeplabv3p_logits_res, pspnet_logits_res, fcn_logits_res, z, labels, mIoU, pred, loss
         torch.cuda.empty_cache()
 
         # If you want to print your progress more often than every epoch you can
@@ -90,9 +89,9 @@ def validate(model, loss_fn, val_loader, device):
             val_loss_cum += batch_loss.item()
             pred = z.argmax(1)
             mIoU = np.nanmean(metrics.mean_iou(labels.cpu().numpy(), pred.cpu().numpy(), 150, -1)['IoU'])
-            val_mIoU_cum += mIoU
+            val_mIoU_cum += mIoU.item()
 
-            del inputs, deeplabv3p_logits_res, pspnet_logits_res, fcn_logits_res, z, labels
+            del inputs, deeplabv3p_logits_res, pspnet_logits_res, fcn_logits_res, z, labels, mIoU, pred, batch_loss
             torch.cuda.empty_cache()
             
     return val_loss_cum/len(val_loader), val_mIoU_cum/len(val_loader)
