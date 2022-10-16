@@ -6,6 +6,8 @@ import torch
 import numpy as np
 from cv2 import imread, IMREAD_GRAYSCALE
 
+resize_flag = False
+
 '''
 加载ADE20K数据集
 '''
@@ -85,6 +87,8 @@ class TensorDataset(Dataset):
         pspnet_tensor = torch.load(self.pspnet_tensor[idx], map_location=torch.device(self.device))
         label_path = self.labels[idx]
         annotation = Image.open(label_path)
+        if resize_flag:
+            annotation = annotation.resize((512, 512),Image.NEAREST)
         annotation = np.array(annotation, dtype = np.uint8)
         annotation_tensor = torch.Tensor(annotation).long()
         return {'deeplabv3p':deeplabv3p_tensor, 'fcn':fcn_tensor, 'pspnet':pspnet_tensor}, annotation_tensor
