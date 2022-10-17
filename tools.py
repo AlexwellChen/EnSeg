@@ -5,6 +5,7 @@ import mmcv
 from mmcv.parallel import collate, scatter
 from mmseg.datasets.pipelines import Compose
 from collections import Counter
+import pickle
 
 '''
 多数投票融合
@@ -85,3 +86,21 @@ def inference_img(my_model, img_path):
     output = model.inference(img, img_meta, True)
     return output
 
+
+'''
+save as list type
+'''
+def saveList(paraList, path):
+    output = open(path, 'wb')
+    # Pickle dictionary using protocol 0.
+    pickle.dump(paraList, output)
+    output.close()
+
+'''
+load the pkl files
+'''
+def loadList(path):
+    pkl_file = open(path, 'rb')
+    segContent = pickle.load(pkl_file)
+    pkl_file.close()
+    return segContent

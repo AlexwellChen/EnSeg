@@ -75,23 +75,26 @@ Test_num = 100
 # Train[0, 50)
 train_start = 0 
 train_end = Train_num
+train_idx = img_usage_idx[train_start:train_end]
 
 # Val[50, 60)
 val_start = train_end
 val_end = val_start + Val_num
+val_idx = img_usage_idx[val_start:val_end]
 
 # Test[60, 70)
 test_start = val_end
 test_end = test_start + Test_num
+test_idx = img_usage_idx[test_start:test_end]
 
-train_img_path = [ADE20K_Dataset.get_img_path(i) for i in range(train_start, train_end)]
-train_img_name = [ADE20K_Dataset.get_img_name(i) for i in range(train_start, train_end)]
+train_img_path = [ADE20K_Dataset.get_img_path(i) for i in train_idx]
+train_img_name = [ADE20K_Dataset.get_img_name(i) for i in train_idx]
 
-val_img_path = [ADE20K_Dataset.get_img_path(i) for i in range(val_start, val_end)]
-val_img_name = [ADE20K_Dataset.get_img_name(i) for i in range(val_start, val_end)]
+val_img_path = [ADE20K_Dataset.get_img_path(i) for i in val_idx]
+val_img_name = [ADE20K_Dataset.get_img_name(i) for i in val_idx]
 
-test_img_path = [ADE20K_Dataset.get_img_path(i) for i in range(test_start, test_end)]
-test_img_name = [ADE20K_Dataset.get_img_name(i) for i in range(test_start, test_end)]
+test_img_path = [ADE20K_Dataset.get_img_path(i) for i in test_idx]
+test_img_name = [ADE20K_Dataset.get_img_name(i) for i in test_idx]
 
 netdisk_train_path = "/root/Desktop/我的网盘/inference_tensor_train/"
 netdisk_val_path = "/root/Desktop/我的网盘/inference_tensor_val/"
