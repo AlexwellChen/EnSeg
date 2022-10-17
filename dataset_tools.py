@@ -5,6 +5,10 @@ from torch.utils.data import Dataset
 import torch
 import numpy as np
 from cv2 import imread, IMREAD_GRAYSCALE
+import torchvision.transforms as transforms
+import torchvision.transforms.functional as f
+
+resize_flag = False
 
 '''
 加载ADE20K数据集
@@ -29,6 +33,9 @@ class ADE20KDataset(Dataset):
         label = Image.open(label_path)
         if self.transforms is not None:
             img = self.transforms(img)
+            if resize_flag:
+                resize_module = transforms.Resize([512, 512], interpolation = f._interpolation_modes_from_int(0))
+                label = resize_module(label)
             label = np.array(label, dtype = np.uint8)
             label = torch.Tensor(label).int()
         return img, label
@@ -85,6 +92,8 @@ class TensorDataset(Dataset):
         pspnet_tensor = torch.load(self.pspnet_tensor[idx], map_location=torch.device(self.device))
         label_path = self.labels[idx]
         annotation = Image.open(label_path)
+        if resize_flag:
+            annotation = annotation.resize((512, 512),Image.NEAREST)
         annotation = np.array(annotation, dtype = np.uint8)
         annotation_tensor = torch.Tensor(annotation).long()
         return {'deeplabv3p':deeplabv3p_tensor, 'fcn':fcn_tensor, 'pspnet':pspnet_tensor}, annotation_tensor
