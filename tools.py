@@ -46,7 +46,7 @@ class LoadImage:
             results['filename'] = None
             results['ori_filename'] = None
         img = mmcv.imread(results['img'])
-        img = mmcv.imresize(img, (512, 512), return_scale=False, interpolation='nearest')
+        #img = mmcv.imresize(img, (512, 512), return_scale=False, interpolation='nearest')
         results['img'] = img
         results['img_shape'] = img.shape
         results['ori_shape'] = img.shape

@@ -28,12 +28,12 @@ if pspnet_inference_flag:
 if fcn_inference_flag:
     fcn_config_file = '../configs/fcn/fcn_r50-d8_512x512_80k_ade20k.py'
     fcn_checkpoint_file = '../checkpoints/fcn_r50-d8_512x512_80k_ade20k_20200614_144016-f8ac5082.pth'
-    fcn_model = init_segmentor(fcn_config_file, fcn_checkpoint_file, device='cuda:0')
+    fcn_model = init_segmentor(fcn_config_file, fcn_checkpoint_file, device='cuda:1')
 
 if deeplabv3p_inference_flag:
     deeplabv3plus_config_file = '../configs/deeplabv3plus/deeplabv3plus_r50-d8_512x512_80k_ade20k.py'
     deeplabv3plus_checkpoint_file = '../checkpoints/deeplabv3plus_r50-d8_512x512_80k_ade20k_20200614_185028-bf1400d8.pth'
-    deeplabv3plus_model = init_segmentor(deeplabv3plus_config_file, deeplabv3plus_checkpoint_file, device='cuda:0')
+    deeplabv3plus_model = init_segmentor(deeplabv3plus_config_file, deeplabv3plus_checkpoint_file, device='cuda:2')
 
 '''
 -------------------------------------------

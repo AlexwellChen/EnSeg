@@ -10,8 +10,8 @@ pspnet_inference_flag = False
 fcn_inference_flag = True
 deeplabv3p_inference_flag = False
 
-Train_Flag = True
-Val_Flag = True
+Train_Flag = False
+Val_Flag = False
 Test_Flag = True
 
 '''
