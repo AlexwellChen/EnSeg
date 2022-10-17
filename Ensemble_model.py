@@ -15,11 +15,13 @@ class FusionModel(nn.Module):
     说明:
         每一个分割结果对应一个长度为150的向量, 每个向量的第i个元素表示第i类的权重
         三个分割结果的权重向量相加, 然后softmax, 得到最终的分割结果
+        总共学习的参数：150x1x1x3 = 450 个
     '''
     def __init__(self, class_num):
         super().__init__()
         # class_num: 150
-        self.w1 = torch.nn.Parameter(torch.from_numpy(np.random.rand(class_num)).reshape(class_num, 1, 1)) 
+        # self.w: tensor(150,1,1) 每个模型对于150个类各有一个权重
+        self.w1 = torch.nn.Parameter(torch.from_numpy(np.random.rand(class_num)).reshape(class_num, 1, 1))
         self.w2 = torch.nn.Parameter(torch.from_numpy(np.random.rand(class_num)).reshape(class_num, 1, 1))
         self.w3 = torch.nn.Parameter(torch.from_numpy(np.random.rand(class_num)).reshape(class_num, 1, 1))
         self.Softmax = nn.Softmax()

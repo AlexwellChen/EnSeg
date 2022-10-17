@@ -88,7 +88,7 @@ if pspnet_inference_flag:
     print("Train Inference...")
     for i in tqdm(range(train_start, train_end)):
         idx = i - train_start
-        pspnet_model_res = inference_img(pspnet_model, train_img_path[idx])[0]
+        pspnet_model_res = inference_img(pspnet_model, train_img_path[idx])[0]  # raw output of inference_img has (1,150,h,w)
         torch.save(pspnet_model_res, netdisk_train_path + "pspnet_model/" + train_img_name[idx] + ".pt")
 
     print("Val Inference...")
