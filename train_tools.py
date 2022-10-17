@@ -49,6 +49,8 @@ def train_epoch(model, optimizer, loss_fn, train_loader, val_loader, device, pri
         loss = loss_fn(z, labels)
         loss.backward()
         optimizer.step()
+        # 多GPU
+        # optimizer.module.step()
         train_loss_batches.append(loss.item())
         pred = z.argmax(1)
         mIoU = np.nanmean(metrics.mean_iou(labels.cpu().numpy(), pred.cpu().numpy(), 150, -1)['IoU'])

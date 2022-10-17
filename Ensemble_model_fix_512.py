@@ -6,7 +6,7 @@ from dataset_tools import TensorDataset
 from train_tools import training_loop
 from torch.utils.data import DataLoader
 
-train_flag = True
+train_flag = False
 multi_GPU = False
 
 class FusionModel_512(nn.Module):
@@ -86,9 +86,9 @@ if train_flag:
     if multi_GPU:
         model = nn.DataParallel(FusionModel_512(150), device_ids=device_ids)
     else:
-        device = "cuda:0"
         # 模型定义
         model = FusionModel_512(150)
+    device = "cuda:0"
 
     # 数据准备
     Train_tensor = TensorDataset(root=netdisk_train_path, label_root=netdisk_label_train_path, device=device)
@@ -105,7 +105,7 @@ if train_flag:
 
     criterion = nn.CrossEntropyLoss(ignore_index=-1)
 
-    epochs_num = 3
+    epochs_num = 5
     opt = torch.optim.Adam(model.parameters(),
                     lr=0.001,
                     betas=(0.9, 0.999),
@@ -120,11 +120,11 @@ if train_flag:
                                                     
     # 保存模型
     model_save_path = "/root/Desktop/我的网盘/"
-    torch.save(trained_model, model_save_path + "fusion_model_100_fix_512.pth")
+    torch.save(trained_model, model_save_path + "fusion_model_100_fix_512_Epoch_5.pth")
 
     # 保存训练过程中的loss和IoU
     train_data_path = "/root/Desktop/我的网盘/train_data/"
     data_dic = {'train_losses': train_losses, 'train_IoU': train_IoU, 'val_losses': val_losses, 'val_IoU': val_IoU}
-    np.save(model_save_path + 'data_dic_100_fix_512.npy', data_dic)
+    np.save(model_save_path + 'data_dic_100_fix_512_Epoch_5.npy', data_dic)
 
 
