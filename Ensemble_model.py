@@ -6,7 +6,7 @@ from dataset_tools import TensorDataset
 from train_tools import training_loop
 from torch.utils.data import DataLoader
 
-train_flag = True
+train_flag = False
 
 class FusionModel(nn.Module):
     '''

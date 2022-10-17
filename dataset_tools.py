@@ -8,7 +8,7 @@ from cv2 import imread, IMREAD_GRAYSCALE
 import torchvision.transforms as transforms
 import torchvision.transforms.functional as f
 
-resize_flag = True
+resize_flag = False
 
 '''
 加载ADE20K数据集
@@ -33,8 +33,9 @@ class ADE20KDataset(Dataset):
         label = Image.open(label_path)
         if self.transforms is not None:
             img = self.transforms(img)
-            resize_module = transforms.Resize([512, 512], interpolation = f._interpolation_modes_from_int(0))
-            label = resize_module(label)
+            if resize_flag:
+                resize_module = transforms.Resize([512, 512], interpolation = f._interpolation_modes_from_int(0))
+                label = resize_module(label)
             label = np.array(label, dtype = np.uint8)
             label = torch.Tensor(label).int()
         return img, label
