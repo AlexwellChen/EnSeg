@@ -111,11 +111,11 @@ if train_flag:
                                                     
     # 保存模型
     model_save_path = "/root/Desktop/我的网盘/"
-    torch.save(trained_model, model_save_path + "fusion_model_100_512.pth")
+    torch.save(trained_model, model_save_path + "fusion_model_100_fix_512.pth")
 
     # 保存训练过程中的loss和IoU
     train_data_path = "/root/Desktop/我的网盘/train_data/"
     data_dic = {'train_losses': train_losses, 'train_IoU': train_IoU, 'val_losses': val_losses, 'val_IoU': val_IoU}
-    np.save(model_save_path + 'data_dic_100_512.npy', data_dic)
+    np.save(model_save_path + 'data_dic_100_fix_512.npy', data_dic)
 
 
