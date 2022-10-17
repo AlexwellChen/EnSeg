@@ -7,6 +7,7 @@ from train_tools import training_loop
 from torch.utils.data import DataLoader
 
 train_flag = True
+multi_GPU = True
 
 class FusionModel_512(nn.Module):
     '''
@@ -81,29 +82,37 @@ if train_flag:
     netdisk_test_path = "/root/Desktop/我的网盘/inference_tensor_test/"
     netdisk_label_train_path = "/root/Desktop/我的网盘/Label/train/"
     netdisk_label_val_path = "/root/Desktop/我的网盘/Label/val/"
-
-    device = "cuda:0"
-    # # 模型定义
-    # model = FusionModel(150)
-    # model.to(device)
+    device_ids = [0, 1]
+    if multi_GPU:
+        model = nn.DataParallel(FusionModel_512(150), device_ids=device_ids)
+    else:
+        device = "cuda:0"
+        # 模型定义
+        model = FusionModel_512(150)
 
     # 数据准备
     Train_tensor = TensorDataset(root=netdisk_train_path, label_root=netdisk_label_train_path, device=device)
     Val_tensor = TensorDataset(root=netdisk_val_path, label_root=netdisk_label_val_path, device=device)
 
-    # 由于每张图像Tensor的H和W不一致, 因此batch_size必须为1
-    train_dataloader = DataLoader(Train_tensor, batch_size=1, shuffle=True)
-    val_dataloader = DataLoader(Val_tensor, batch_size=1, shuffle=True)
+
+    if multi_GPU:
+        train_dataloader = DataLoader(Train_tensor, batch_size=2, shuffle=True)
+        val_dataloader = DataLoader(Val_tensor, batch_size=2, shuffle=True)
+    else:
+        # 由于每张图像Tensor的H和W不一致, 因此batch_size必须为1
+        train_dataloader = DataLoader(Train_tensor, batch_size=1, shuffle=True)
+        val_dataloader = DataLoader(Val_tensor, batch_size=1, shuffle=True)
 
     criterion = nn.CrossEntropyLoss(ignore_index=-1)
-    model = FusionModel_512(150)
 
     epochs_num = 3
     opt = torch.optim.Adam(model.parameters(),
                     lr=0.001,
                     betas=(0.9, 0.999),
                     eps=1e-08)
-
+    if multi_GPU:
+        opt = nn.DataParallel(opt, device_ids=device_ids)
+    
     trained_model, train_losses, train_IoU, val_losses, val_IoU= training_loop(model, optimizer=opt, 
                                                                         loss_fn=criterion, train_loader=train_dataloader, 
                                                                         val_loader = val_dataloader, 
