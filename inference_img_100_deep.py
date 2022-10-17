@@ -6,8 +6,8 @@ import torchvision.transforms as transforms
 from tqdm import tqdm
 import torch
 
-pspnet_inference_flag = True
-fcn_inference_flag = True
+pspnet_inference_flag = False
+fcn_inference_flag = False
 deeplabv3p_inference_flag = True
 
 Train_Flag = True

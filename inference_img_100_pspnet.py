@@ -1,4 +1,3 @@
-import torchvision.transforms.functional as f
 from tools import inference_img
 from dataset_tools import ADE20KDataset
 from mmseg.apis import init_segmentor
@@ -8,13 +7,12 @@ from tqdm import tqdm
 import torch
 
 pspnet_inference_flag = True
-fcn_inference_flag = True
-deeplabv3p_inference_flag = True
+fcn_inference_flag = False
+deeplabv3p_inference_flag = False
 
 Train_Flag = True
 Val_Flag = True
 Test_Flag = True
-
 
 '''
 -------------------------------------------
@@ -30,13 +28,12 @@ if pspnet_inference_flag:
 if fcn_inference_flag:
     fcn_config_file = '../configs/fcn/fcn_r50-d8_512x512_80k_ade20k.py'
     fcn_checkpoint_file = '../checkpoints/fcn_r50-d8_512x512_80k_ade20k_20200614_144016-f8ac5082.pth'
-    fcn_model = init_segmentor(fcn_config_file, fcn_checkpoint_file, device='cuda:0')
+    fcn_model = init_segmentor(fcn_config_file, fcn_checkpoint_file, device='cuda:1')
 
 if deeplabv3p_inference_flag:
     deeplabv3plus_config_file = '../configs/deeplabv3plus/deeplabv3plus_r50-d8_512x512_80k_ade20k.py'
     deeplabv3plus_checkpoint_file = '../checkpoints/deeplabv3plus_r50-d8_512x512_80k_ade20k_20200614_185028-bf1400d8.pth'
-    deeplabv3plus_model = init_segmentor(deeplabv3plus_config_file, deeplabv3plus_checkpoint_file, device='cuda:0')
-
+    deeplabv3plus_model = init_segmentor(deeplabv3plus_config_file, deeplabv3plus_checkpoint_file, device='cuda:2')
 
 '''
 -------------------------------------------
@@ -48,8 +45,7 @@ train_label_path = '../../ADEChallengeData2016/annotations/training/'
 val_path = '../../ADEChallengeData2016/images/validation/'
 val_label_path = '../../ADEChallengeData2016/annotations/validation/'
 
-# 统一尺寸
-transform = Compose([transforms.Resize([512, 512], interpolation = f._interpolation_modes_from_int(0)), transforms.ToTensor()])
+transform = Compose([transforms.ToTensor()])
 ADE20K_Dataset = ADE20KDataset(train_path, train_label_path, transform)
 
 '''
@@ -167,6 +163,3 @@ if fcn_inference_flag:
             idx = i - test_start
             fcn_model_res = inference_img(fcn_model, test_img_path[idx])[0]
             torch.save(fcn_model_res, netdisk_test_path + "fcn_model/" + test_img_name[idx] + ".pt")
-
-
-
