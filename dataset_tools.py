@@ -8,7 +8,7 @@ from cv2 import imread, IMREAD_GRAYSCALE
 import torchvision.transforms as transforms
 import torchvision.transforms.functional as f
 
-resize_flag = False
+resize_flag = True
 
 '''
 加载ADE20K数据集
