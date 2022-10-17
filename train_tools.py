@@ -3,7 +3,6 @@ from mmseg.core.evaluation import metrics
 from tqdm import tqdm
 import numpy as np
 
-multi_GPU = False
 
 def training_loop(model, optimizer, loss_fn, train_loader, val_loader, num_epochs, print_every):
     print("Starting training")

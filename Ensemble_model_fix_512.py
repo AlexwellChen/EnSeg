@@ -7,7 +7,7 @@ from train_tools import training_loop
 from torch.utils.data import DataLoader
 
 train_flag = True
-multi_GPU = True
+multi_GPU = False
 
 class FusionModel_512(nn.Module):
     '''
