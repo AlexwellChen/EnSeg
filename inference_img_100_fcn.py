@@ -56,7 +56,7 @@ ADE20K_Dataset = ADE20KDataset(train_path, train_label_path, transform)
 # Dataset Generator Config
 Train_num = 100
 Val_num = 10
-Test_num = 100
+Test_num = 50
 
 # Train[0, 50)
 train_start = 0 
