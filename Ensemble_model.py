@@ -10,11 +10,11 @@ train_flag = False
 
 class FusionModel(nn.Module):
     '''
-    输入: 三个模型的分割结果
-    输出: 融合后的分割结果
-    说明:
-        每一个分割结果对应一个长度为150的向量, 每个向量的第i个元素表示第i类的权重
-        三个分割结果的权重向量相加, 然后softmax, 得到最终的分割结果
+    Input: Three Segmentation Tensor
+    Output: Fusion Segmentation Tensor
+    note:
+        Each segmentation result corresponds to a vector of length 150, and the i-th element of each vector represents the weight of class i.
+        The weight vectors of the three segmentation results are added together to obtain the final segmentation result
     '''
     def __init__(self, class_num):
         super().__init__()
@@ -30,7 +30,7 @@ class FusionModel(nn.Module):
         return input_seg1 * self.w1 + input_seg2 * self.w2 + input_seg3 * self.w3
 
 '''
---------------------- 以下是测试代码 ---------------------
+--------------------- Test ---------------------
 '''
 # device = "cpu"
 
@@ -83,15 +83,15 @@ if train_flag:
     netdisk_label_val_path = "/root/Desktop/我的网盘/Label/val/"
 
     device = "cuda:0"
-    # # 模型定义
+
     # model = FusionModel(150)
     # model.to(device)
 
-    # 数据准备
+    # Prepare dataset
     Train_tensor = TensorDataset(root=netdisk_train_path, label_root=netdisk_label_train_path, device=device)
     Val_tensor = TensorDataset(root=netdisk_val_path, label_root=netdisk_label_val_path, device=device)
 
-    # 由于每张图像Tensor的H和W不一致, 因此batch_size必须为1
+    # Train
     train_dataloader = DataLoader(Train_tensor, batch_size=1, shuffle=True)
     val_dataloader = DataLoader(Val_tensor, batch_size=1, shuffle=True)
 
@@ -109,11 +109,11 @@ if train_flag:
                                                                         val_loader = val_dataloader, 
                                                                         num_epochs=epochs_num, print_every=20)
                                                     
-    # 保存模型
+    # Save model
     model_save_path = "/root/Desktop/我的网盘/"
     torch.save(trained_model, model_save_path + "fusion_model_100.pth")
 
-    # 保存训练过程中的loss和IoU
+    # Save train data
     train_data_path = "/root/Desktop/我的网盘/train_data/"
     data_dic = {'train_losses': train_losses, 'train_IoU': train_IoU, 'val_losses': val_losses, 'val_IoU': val_IoU}
     np.save(model_save_path + 'data_dic_100.npy', data_dic)

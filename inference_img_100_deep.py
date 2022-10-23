@@ -16,7 +16,7 @@ Test_Flag = True
 
 '''
 -------------------------------------------
-                  加载模型
+                  Load Model
 -------------------------------------------
 '''
 if pspnet_inference_flag:
@@ -37,7 +37,7 @@ if deeplabv3p_inference_flag:
 
 '''
 -------------------------------------------
-                  加载数据集
+                  Load Dataset
 -------------------------------------------
 '''
 train_path = '../../ADEChallengeData2016/images/training/'
@@ -50,7 +50,7 @@ ADE20K_Dataset = ADE20KDataset(train_path, train_label_path, transform)
 
 '''
 -------------------------------------------
-                推理并保存Tensor
+                Inference
 -------------------------------------------
 '''
 # Dataset Generator Config

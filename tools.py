@@ -7,9 +7,9 @@ from mmseg.datasets.pipelines import Compose
 from collections import Counter
 
 '''
-多数投票融合
-输入: 三个模型的推理结果, type: np.ndarray
-输出：融合后的结果, type: np.ndarray
+Majorn vote
+Input: type: np.ndarray
+Output: fusion, type: np.ndarray
 '''
 def majorVote(seg_mat1, seg_mat2, seg_mat3):
     res = np.zeros(seg_mat1.shape)
@@ -55,11 +55,11 @@ class LoadImage:
 def inference_img(my_model, img_path):
     '''
     input: 
-    my_model 推理使用的模型
-    img_path 单张图像的path
+    my_model 
+    img_path 
 
     output:
-    图像分割的logits，(1, 150, H, W)
+    Segementation logits, (1, 150, H, W)
     '''
     model = my_model
     cfg = model.cfg

@@ -11,7 +11,7 @@ import torchvision.transforms.functional as f
 resize_flag = False
 
 '''
-加载ADE20K数据集
+Load ADE20K dataset
 '''
 class ADE20KDataset(Dataset):
     def __init__(self, root, label_root, transforms=None):
@@ -23,7 +23,7 @@ class ADE20KDataset(Dataset):
     
     def __getitem__(self, idx):
         '''
-        ADE20KDataset: 返回为tuple, 第一个为image, 第二个为label
+        ADE20KDataset: return tuple, first is image, second is label
 
         return (img (Tensor.float), label (Tensor.int32))
         '''
@@ -84,8 +84,8 @@ class TensorDataset(Dataset):
     
     def __getitem__(self, idx):
         '''
-        输入: idx
-        返回: {'deeplabv3p': Tensor, 'fcn': Tensor, 'pspnet': Tensor}, annotation_tensor
+        Input: idx
+        Output: {'deeplabv3p': Tensor, 'fcn': Tensor, 'pspnet': Tensor}, annotation_tensor
         '''
         deeplabv3p_tensor = torch.load(self.deeplabv3p_tensor[idx], map_location=torch.device(self.device))
         fcn_tensor = torch.load(self.fcn_tensor[idx], map_location=torch.device(self.device))
